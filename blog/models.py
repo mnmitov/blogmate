@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from account.models import AppUser
+
+
 # Create your models here.
 
 class Post(models.Model):
@@ -20,24 +23,49 @@ class Post(models.Model):
         auto_now=True
     )
 
-    author = models.CharField(
-        max_length=30
+    author = models.ForeignKey(
+        to=AppUser,
+        on_delete=models.CASCADE,
+        related_name='authors',
     )
 
 
 class Comment(models.Model):
     post = models.ForeignKey(
-        Post,
+        to=Post,
         on_delete=models.CASCADE,
         related_name='comments',
     )
 
-    author = models.CharField(
-        max_length=100,
+    content = models.CharField(
+        max_length=1000,
+        default='',
     )
 
-    content = models.TextField()
+    author = models.OneToOneField(
+        to=AppUser,
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,
+    )
+
+
+class Like(models.Model):
+    like = models.BooleanField(
+        default=False,
+    )
+
+    author = models.ForeignKey(
+        to=AppUser,
+        on_delete=models.CASCADE,
+        related_name='author_likes',
+    )
+
+    post = models.OneToOneField(
+        to=Post,
+        on_delete=models.CASCADE,
+        related_name='post_likes',
     )

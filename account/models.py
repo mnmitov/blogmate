@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -49,7 +50,18 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
     )
 
-    age = models.IntegerField()
+    age = models.IntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100)
+        ],
+    )
+
+    image = models.ImageField(
+        upload_to='images/',
+        blank=True,
+        null=True,
+    )
 
     first_name = models.CharField(
         max_length=30,

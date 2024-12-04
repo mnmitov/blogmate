@@ -1,7 +1,11 @@
-from django.urls import path
-from blog.views import AddBlog, EditBlog
-
+from django.urls import path, include
+from blog.views import AddBlogPost, EditBlogPost, DeleteBlogPost, ArticleView
 urlpatterns = [
-    path('add_blog/', AddBlog.as_view(), name='add-topic'),
-    path('edit_blog/', EditBlog.as_view(), name='edit-topic'),
+    path('add-article/', AddBlogPost.as_view(), name='add-article'),
+    path('<int:pk>/', include([
+        path('edit-article/', EditBlogPost.as_view(), name='edit-article'),
+        path('delete-article/', DeleteBlogPost.as_view(), name='delete-article'),
+        path('article/', ArticleView.as_view(), name='article'),
+    ])),
+
 ]

@@ -1,3 +1,22 @@
-<div>
-    Your  profile details
-</div>
+{% extends 'common/base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-10">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">Your account</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary ml-2">Change details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
