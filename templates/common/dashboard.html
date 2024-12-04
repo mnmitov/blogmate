@@ -3,50 +3,99 @@
 {% block content %}
 
     <div class="container-fluid">
-        <h2 class="text-center mb-5 mu-5">BlogMate Articles</h2>
+        <h1 class="text-center mb-5 mu-5">BlogMate Articles</h1>
         {% if not request.user.is_authenticated %}
             <div class="mb-5">
                 <p class="text-center">You need to <a href="{% url 'login' %}">Login</a> first. If you don't have an
                     account, you can <a href="{% url 'register' %}">create one here.</a></p>
-                <p class="text-center">Please note that as unauthenticated user you can only read articles. You are not allowed to create a new
+                <p class="text-center">Please note that as unauthenticated user you can only read articles. You are not
+                    allowed to create a new
                     blog article, neither comment or like articles.</p>
             </div>
         {% endif %}
         {% if posts %}
             {% for post in posts %}
                 <div class="row">
-                    {#                    <div class="col-md-4">#}
+
                     <div class="card h-100 shadow-sm mb-4">
-                        {#                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Topic Image">#}
+
                         <div class="card-body">
-                            <h5 class="card-title">{{ post.title }}
-                            {% if request.user == post.author %}
-                            <span>(You own this article)</span>
-                            {% endif %}
-                            </h5>
+                            <h2 class="card-title">{{ post.title }}</h2>
                             <p class="card-text">{{ post.description }}</p>
 
-                            <div class="col-md-8 col-lg-8 mb-4">
-                                <p class="d-inline me-3">Author: {{ post.author }}</p>
-                                <p class="d-inline me-3">Likes: {{ post.likes_count }}</p>
-                                <p class="d-inline me-3">Total comments: {{ post.comments.count }}</p>
-                                <p class="d-inline me-3">Created on: {{ post.date_added|date:'d/m/Y' }}</p>
-                                <p class="d-inline">Last edited on: {{ post.date_modified|date:'d/m/Y' }}</p>
-                            </div>
-                            
+                            <ul class="col-md-8 col-lg-8 mb-4">
+                                <li class="d-inline me-3">Author: {{ post.author }}</li>
+                                <li class="d-inline me-3">Likes: {{ post.likes_count }}</li>
+                                <li class="d-inline me-3">Total comments: {{ post.comments.count }}</li>
+                                <li class="d-inline me-3">Created on: {{ post.date_added|date:'d/m/Y' }}</li>
+
+                                {% if post.date_added != post.date_modified %}
+                                    <li class="d-inline me-3">Last edited
+                                        on: {{ post.date_modified|date:'d/m/Y - H:mA' }}</li>
+                                {% endif %}
+
+                                <li class="d-inline">Viewed: {{ post.views }} times</li>
+
+                            </ul>
+
                             <a href="{% url 'article' post.pk %}" class="btn btn-primary">Read article</a>
+                            {% if request.user == post.author %}
+                                <span class="ms-3">You own this article</span>
+                            {% endif %}
+
 
                         </div>
                     </div>
-                    {#                    </div>#}
                 </div>
             {% endfor %}
 
         {% else %}
-
             <p class="text-center">There are no blogs post yet! Be the first one to create a BlogMate post!</p>
-
         {% endif %}
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page Links -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo; First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <!-- Current Page Info -->
+                <li class="page-item">
+            <span class="page-link">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+                </li>
+                <li class="page-item">
+                    <span class="page-link">
+                <small>{{ page_obj.paginator.count }} total posts</small>
+            </span>
+                </li>
+
+                <!-- Next Page Links -->
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">Last &raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
 
     </div>
 

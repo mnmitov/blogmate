@@ -26,7 +26,11 @@ class Post(models.Model):
     author = models.ForeignKey(
         to=AppUser,
         on_delete=models.CASCADE,
-        related_name='authors',
+        related_name='authors_posts',
+    )
+
+    views = models.PositiveIntegerField(
+        default=0,
     )
 
 

@@ -1,5 +1,6 @@
 from django.db.models import Count
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
+
 from blog.models import Post
 
 
@@ -11,6 +12,7 @@ class HomePage(ListView):
     template_name = 'common/dashboard.html'
     context_object_name = 'posts'
     model = Post
+    paginate_by = 2
 
     def get_queryset(self):
         return self.model.objects.annotate(likes_count=Count('post_likes'))
@@ -19,3 +21,7 @@ class HomePage(ListView):
     #     context = super().get_context_data(**kwargs)
     #     context['is_author'] = self.request.user == self.object_list.author
     #     return context
+
+
+class ForbiddenPage(TemplateView):
+    template_name = 'common/403.html'

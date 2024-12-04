@@ -13,7 +13,7 @@ class BlogBaseForm(forms.ModelForm):
 class BlogCreateForm(BlogBaseForm):
     class Meta:
         model = Post
-        fields = '__all__'
+        exclude = ('author', 'views')
 
         error_messages = {
             'title': {
@@ -46,7 +46,9 @@ class BlogCreateForm(BlogBaseForm):
 
 
 class BlogEditForm(BlogBaseForm):
-    pass
+    class Meta:
+        model = Post
+        exclude = ('author', 'views')
 
 
 class BlogDeleteForm(BlogBaseForm):

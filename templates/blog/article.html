@@ -9,14 +9,19 @@
 
                         <h4 class="card-title text-center mb-4">Article: {{ article.title }}</h4>
                         <p class="card-text text-center">{{ article.description }}</p>
-                    
-                        <div class="col-md-8 col-lg-8 mb-4">
-                            <p class="d-inline me-3">Author: {{ article.author }}</p>
-                            <p class="d-inline me-3">Likes: {{ article.likes_count }}</p>
-                            <p class="d-inline me-3">Total comments: {{ article.comments.count }}</p>
-                            <p class="d-inline me-3">Created on: {{ article.date_added|date:'d/m/Y' }}</p>
-                            <p class="d-inline">Last edited on: {{ article.date_modified|date:'d/m/Y' }}</p>
-                        </div>
+
+                        <ul class="col-md-12 col-lg-12 mb-4">
+                            <li class="d-inline me-3">Author: {{ article.author }}</li>
+                            <li class="d-inline me-3">Likes: {{ article.likes_count }}</li>
+                            <li class="d-inline me-3">Total comments: {{ article.comments.count }}</li>
+                            <li class="d-inline me-3">Created on: {{ article.date_added|date:'d/m/Y' }}</li>
+
+                            {% if article.date_added != article.date_modified %}
+                                <li class="d-inline me-3">Last edited on: {{ article.date_modified|date:'d/m/Y - H:mA' }}</li>
+                            {% endif %}
+                        
+                            <li class="d-inline">Viewed: {{ article.views }} times</li>
+                        </ul>
 
 
                         {% if is_author %}

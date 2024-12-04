@@ -22,6 +22,6 @@ from common.views import HomePage
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
-    path('', HomePage.as_view(), name='homepage'),
+    path('', include('common.urls')),
     path('account/', include('account.urls')),
 ]
