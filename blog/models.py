@@ -46,10 +46,10 @@ class Comment(models.Model):
         default='',
     )
 
-    author = models.OneToOneField(
+    author = models.ForeignKey(
         to=AppUser,
         on_delete=models.CASCADE,
-        related_name='posts',
+        related_name='comments',
     )
 
     created_at = models.DateTimeField(
@@ -68,8 +68,12 @@ class Like(models.Model):
         related_name='author_likes',
     )
 
-    post = models.OneToOneField(
+    post = models.ForeignKey(
         to=Post,
         on_delete=models.CASCADE,
         related_name='post_likes',
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )

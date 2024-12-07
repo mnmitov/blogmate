@@ -1,0 +1,13 @@
+<div class="comments-list">
+    {% for comment in comments %}
+        <div class="comment mb-4 p-3 border rounded bg-light text-center">
+            <h5 class="fw-bold">Comment by {{ comment.author }}</h5>
+            <p class="mb-1">{{ comment.content }}</p>
+            <small class="text-muted">Posted on: {{ comment.created_at|date:"Y-m-d H:i" }}</small>
+        </div>
+    {% empty %}
+        <p class="text-center">No comments yet. Be the first to comment!</p>
+    {% endfor %}
+</div>
+
+

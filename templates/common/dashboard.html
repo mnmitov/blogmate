@@ -26,7 +26,7 @@
                             <ul class="col-md-8 col-lg-8 mb-4">
                                 <li class="d-inline me-3">Author: {{ post.author }}</li>
                                 <li class="d-inline me-3">Likes: {{ post.likes_count }}</li>
-                                <li class="d-inline me-3">Total comments: {{ post.comments.count }}</li>
+                                <li class="d-inline me-3">Comments: {{ post.comments.count }}</li>
                                 <li class="d-inline me-3">Created on: {{ post.date_added|date:'d/m/Y' }}</li>
 
                                 {% if post.date_added != post.date_modified %}

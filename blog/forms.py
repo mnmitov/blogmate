@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from blog.models import Post
+from blog.models import Post, Comment
 
 
 class BlogBaseForm(forms.ModelForm):
@@ -14,6 +14,10 @@ class BlogCreateForm(BlogBaseForm):
     class Meta:
         model = Post
         exclude = ('author', 'views')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+        }
 
         error_messages = {
             'title': {
@@ -49,6 +53,10 @@ class BlogEditForm(BlogBaseForm):
     class Meta:
         model = Post
         exclude = ('author', 'views')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+        }
 
 
 class BlogDeleteForm(BlogBaseForm):
@@ -57,3 +65,17 @@ class BlogDeleteForm(BlogBaseForm):
 
 class BlogDetailsForm(BlogBaseForm):
     pass
+
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ('author', 'post')
+
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+        labels = {
+            'content': 'Your comment:'
+        }
+

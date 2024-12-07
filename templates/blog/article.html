@@ -12,17 +12,19 @@
 
                         <ul class="col-md-12 col-lg-12 mb-4">
                             <li class="d-inline me-3">Author: {{ article.author }}</li>
-                            <li class="d-inline me-3">Likes: {{ article.likes_count }}</li>
+                            <li class="d-inline me-3" id="likes_count">Likes: {{ likes_count }}</li>
                             <li class="d-inline me-3">Total comments: {{ article.comments.count }}</li>
                             <li class="d-inline me-3">Created on: {{ article.date_added|date:'d/m/Y' }}</li>
 
                             {% if article.date_added != article.date_modified %}
-                                <li class="d-inline me-3">Last edited on: {{ article.date_modified|date:'d/m/Y - H:mA' }}</li>
+                                <li class="d-inline me-3">Last edited
+                                    on: {{ article.date_modified|date:'d/m/Y - H:mA' }}</li>
                             {% endif %}
-                        
+
                             <li class="d-inline">Viewed: {{ article.views }} times</li>
                         </ul>
 
+                        {% include 'blog/likes.html' %}
 
                         {% if is_author %}
                             <div class="text-center">
@@ -32,9 +34,20 @@
                             </div>
                         {% endif %}
 
+
                     </div>
+                {% include 'blog/comments/comments.html' %}
+                <a href="{% url 'add-comment' article.pk %}" class="btn btn-primary">Add comment</a>
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 {% endblock %}
+
+
+
+

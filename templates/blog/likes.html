@@ -1,0 +1,33 @@
+{% if user.is_authenticated %}
+    <button id="like-button" class="btn btn-primary" data-post-id="{{ article.pk }}">
+        {% if user_liked %}
+            Unlike
+        {% else %}
+            Like
+        {% endif %}
+    </button>
+{% endif %}
+
+<script>
+    document.getElementById('like-button').addEventListener('click', function () {
+
+        const postId = this.getAttribute('data-post-id');
+        fetch(`/blog/${postId}/like/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.textContent = data.liked ? `Unlike` : `Like`;
+                likes_counter(data)
+            });
+
+    });
+
+    function likes_counter(data) {
+        let get_count_field = document.getElementById('likes_count');
+        get_count_field.textContent = `Likes: ${data.likes_count}`;
+    }
+</script>
