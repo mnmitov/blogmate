@@ -10,7 +10,7 @@
                         <h4 class="card-title text-center mb-4">Add your BlogMate Topic</h4>
                         <form method="post">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            {{ form.as_p|safe }}
                             <button class="btn btn-primary ml-2">Add</button>
                         </form>
 

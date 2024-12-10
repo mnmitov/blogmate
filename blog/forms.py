@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django_summernote.widgets import SummernoteWidget
 
 from blog.models import Post, Comment
 
@@ -16,7 +17,7 @@ class BlogCreateForm(BlogBaseForm):
         exclude = ('author', 'views')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+            'description': SummernoteWidget(),
         }
 
         error_messages = {
@@ -27,26 +28,26 @@ class BlogCreateForm(BlogBaseForm):
         }
 
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        title = cleaned_data.get('title')
-        content = cleaned_data.get('description')
-
-        if title and content and title in content:
-            raise ValidationError("The post title cannot be included in the post content")
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        post = super().save(commit=False)
-
-        post.title = post.title.capitalize()
-
-        if commit:
-            post.save()
-
-        return post
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     title = cleaned_data.get('title')
+    #     content = cleaned_data.get('description')
+    #
+    #     if title and content and title in content:
+    #         raise ValidationError("The post title cannot be included in the post content")
+    #
+    #     return cleaned_data
+    #
+    # def save(self, commit=True):
+    #     post = super().save(commit=False)
+    #
+    #     post.title = post.title.capitalize()
+    #
+    #     if commit:
+    #         post.save()
+    #
+    #     return post
 
 
 class BlogEditForm(BlogBaseForm):
@@ -55,7 +56,7 @@ class BlogEditForm(BlogBaseForm):
         exclude = ('author', 'views')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+            'description': SummernoteWidget(),
         }
 
 

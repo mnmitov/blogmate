@@ -1,0 +1,36 @@
+/* Sticky Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1050; /* Higher z-index to ensure it stays on top of content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+
+/* Optional spacing and alignment */
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #000;
+}
+
+.nav-link:hover {
+    color: #007bff; /* Change link color on hover */
+}
+
+/* Adjust for mobile view */
+.navbar-nav .ms-auto {
+    margin-left: auto !important; /* Ensure links align properly */
+}
+
+@media (max-width: 991.98px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+}
+
+.logo-size {
+    width: 80px;
+    height: auto;
+}

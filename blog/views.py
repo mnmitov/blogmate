@@ -32,6 +32,8 @@ class EditBlogPost(TitleMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateVi
     model = Post
 
     def test_func(self):
+        if self.request.user.is_superuser:
+            return self.request.user.is_superuser
         post = self.get_object()
         return post.author == self.request.user
 
@@ -51,8 +53,11 @@ class DeleteBlogPost(TitleMixin, LoginRequiredMixin, UserPassesTestMixin, Delete
     model = Post
 
     def test_func(self):
+        if self.request.user.is_superuser:
+            return self.request.user.is_superuser
         post = self.get_object()
         return post.author == self.request.user
+
 
     def handle_no_permission(self):
         return redirect('forbidden-page')
@@ -73,9 +78,10 @@ class ArticleView(TitleMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all().order_by('-created_at')
+        context['comments'] = self.object.comments.all().order_by('created_at')
         if self.request.user.is_authenticated:
             context['is_author'] = self.request.user == self.get_object().author
+            context['is_superuser'] = self.request.user.is_superuser
             context['user_liked'] = self.get_object().post_likes.filter(author=self.request.user).exists()
         context['likes_count'] = self.get_object().post_likes.count()
 
@@ -117,8 +123,6 @@ class AddCommentView(TitleMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = Post.objects.get(pk=self.kwargs['pk'])
-        # print(Post.objects.get(pk=self.kwargs['pk']))
-        # print(super().form_valid(form))
         return super().form_valid(form)
 
     def get_success_url(self):

@@ -10,7 +10,7 @@ class HomePage(ListView):
     template_name = 'common/dashboard.html'
     context_object_name = 'posts'
     model = Post
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         return self.model.objects.annotate(likes_count=Count('post_likes')).order_by('-date_added')

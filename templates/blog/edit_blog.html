@@ -10,7 +10,7 @@
                         <h4 class="card-title text-center mb-4">Edit your BlogMate article</h4>
                         <form method="post">
                             {% csrf_token %}
-                            {{ form }}
+                            {{ form|safe }}
                             <button class="btn btn-primary ml-2">Edit</button>
                         </form>
 

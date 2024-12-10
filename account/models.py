@@ -48,6 +48,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         AppUser,
         on_delete=models.CASCADE,
+        related_name='user_profile',
     )
 
     age = models.IntegerField(
@@ -55,6 +56,8 @@ class Profile(models.Model):
             MinValueValidator(0),
             MaxValueValidator(100)
         ],
+        null=True,
+        blank=True,
     )
 
     image = models.ImageField(
@@ -64,9 +67,30 @@ class Profile(models.Model):
     )
 
     first_name = models.CharField(
+        null=True,
+        blank=True,
         max_length=30,
     )
 
     last_name = models.CharField(
+        null=True,
+        blank=True,
         max_length=30,
+    )
+
+    about_me = models.CharField(
+        null=True,
+        blank=True,
+        max_length=500,
+    )
+
+    phone_number = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+    )
+
+    occupation = models.CharField(
+        null=True,
+        blank=True,
+        max_length=100,
     )

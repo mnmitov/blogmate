@@ -20,27 +20,27 @@
                     <div class="card h-100 shadow-sm mb-4">
 
                         <div class="card-body">
-                            <h2 class="card-title">{{ post.title }}</h2>
-                            <p class="card-text">{{ post.description }}</p>
+                            <h2 class="card-title mb-4"><i class="far fa-newspaper"></i> {{ post.title }}</h2>
+{#                            <div class="card-text mb-4" style="max-height: 6em; overflow: hidden;">{{ post.description|safe }}</div>#}
 
                             <ul class="col-md-8 col-lg-8 mb-4">
-                                <li class="d-inline me-3">Author: {{ post.author }}</li>
-                                <li class="d-inline me-3">Likes: {{ post.likes_count }}</li>
-                                <li class="d-inline me-3">Comments: {{ post.comments.count }}</li>
-                                <li class="d-inline me-3">Created on: {{ post.date_added|date:'d/m/Y' }}</li>
+                                <li class="d-inline me-3"><i class="fas fa-user-circle"></i> Author: <a href="{% url 'account-details' post.author.id %}">{{ post.author }}</a></li>
+                                <li class="d-inline me-3"><i class="far fa-thumbs-up"></i> Likes: {{ post.likes_count }}</li>
+                                <li class="d-inline me-3"><i class="fas fa-comments"></i> Comments: {{ post.comments.count }}</li>
+                                <li class="d-inline me-3"><i class="fas fa-clock"></i> Created on: {{ post.date_added|date:'d/m/Y' }}</li>
 
                                 {% if post.date_added != post.date_modified %}
-                                    <li class="d-inline me-3">Last edited
+                                    <li class="d-inline me-3"><i class="far fa-edit"></i> Last edited
                                         on: {{ post.date_modified|date:'d/m/Y - H:mA' }}</li>
                                 {% endif %}
 
-                                <li class="d-inline">Viewed: {{ post.views }} times</li>
+                                <li class="d-inline"><i class="fas fa-history"></i> Viewed: {{ post.views }} times</li>
 
                             </ul>
 
-                            <a href="{% url 'article' post.pk %}" class="btn btn-primary">Read article</a>
+                            <a href="{% url 'article' post.pk %}" class="btn btn-primary"><i class="fas fa-book-reader"></i> Read article</a>
                             {% if request.user == post.author %}
-                                <span class="ms-3">You own this article</span>
+                                <span class="ms-3"><i class="fas fa-crown"></i> You own this article</span>
                             {% endif %}
 
 

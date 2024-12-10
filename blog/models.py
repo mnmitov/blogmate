@@ -33,6 +33,9 @@ class Post(models.Model):
         default=0,
     )
 
+    def __str__(self):
+        return f"{self.title} by {self.author}"
+
 
 class Comment(models.Model):
     post = models.ForeignKey(
@@ -56,12 +59,11 @@ class Comment(models.Model):
         auto_now_add=True,
     )
 
+    def __str__(self):
+        return f"Comment: {self.content} by {self.author}"
+
 
 class Like(models.Model):
-    like = models.BooleanField(
-        default=False,
-    )
-
     author = models.ForeignKey(
         to=AppUser,
         on_delete=models.CASCADE,
@@ -77,3 +79,6 @@ class Like(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
+
+    def __str__(self):
+        return f"Like on post {self.post} by {self.author}"

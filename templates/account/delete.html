@@ -1,0 +1,24 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+
+                        <h1>Delete Account</h1>
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-danger ml-2">Yes, terminate my account</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
