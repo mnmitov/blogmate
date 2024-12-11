@@ -84,7 +84,6 @@ class ArticleView(TitleMixin, DetailView):
             context['is_superuser'] = self.request.user.is_superuser
             context['user_liked'] = self.get_object().post_likes.filter(author=self.request.user).exists()
         context['likes_count'] = self.get_object().post_likes.count()
-
         return context
 
     def get_object(self, queryset = None):

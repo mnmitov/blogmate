@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
+from django.http import Http404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
@@ -35,6 +36,8 @@ class AccountDetails(TitleMixin, DetailView):
         if user:
             return Profile.objects.get(user=user)
         profile, created = Profile.objects.get_or_create(user=self.request.user)
+        if not profile:
+            raise Http404('The profile you are looking for does not exist')
         return profile
 
 

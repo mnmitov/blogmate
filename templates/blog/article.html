@@ -1,60 +1,63 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-    <div class="mb-5">
-        <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card shadow-sm">
-                    <div class="card-body">
 
-                        <h4 class="card-title text-center mb-4">Article: {{ article.title }}</h4>
-                        <p class="card-text text-center mb-5">{{ article.description|safe }}</p>
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
 
-                        <ul class="col-md-12 col-lg-12 mb-4">
-                            <li class="d-inline me-3"><i class="fas fa-user-circle"></i> Author: <a href="{% url 'account-details' article.author.id %}">{{ article.author }}</a></li>
-                            <li class="d-inline me-3"><i class="far fa-thumbs-up"></i> Likes: <span id="likes_count">{{ likes_count }}</span></li>
-                            <li class="d-inline me-3"><i class="fas fa-comments"></i> Total comments: {{ article.comments.count }}</li>
-                            <li class="d-inline me-3"><i class="fas fa-clock"></i> Created on: {{ article.date_added|date:'d/m/Y' }}</li>
+                    <h1 class="card-title text-center mb-4">{{ article.title }}</h1>
+                    <p class="card-text text-center mb-5">{{ article.description|safe }}</p>
 
-                            {% if article.date_added != article.date_modified %}
-                                <li class="d-inline me-3"><i class="far fa-edit"></i> Last edited
-                                    on: {{ article.date_modified|date:'d/m/Y - H:mA' }}</li>
-                            {% endif %}
+                    <ul class="col-md-12 col-lg-12 mb-4">
+                        <li class="d-inline me-3"><i class="fas fa-user-circle"></i> Author: <a
+                                href="{% url 'account-details' article.author.id %}">{{ article.author }}</a></li>
+                        <li class="d-inline me-3"><i class="far fa-thumbs-up"></i> Likes: <span
+                                id="likes_count">{{ likes_count }}</span></li>
+                        <li class="d-inline me-3"><i class="fas fa-comments"></i> Total
+                            comments: {{ article.comments.count }}</li>
+                        <li class="d-inline me-3"><i class="fas fa-clock"></i> Created
+                            on: {{ article.date_added|date:'d/m/Y' }}</li>
 
-                            <li class="d-inline"><i class="fas fa-history"></i> Viewed: {{ article.views }} times</li>
-                        </ul>
-
-
-
-                        {% if is_author or is_superuser %}
-                            <div class="text-center mb-5">
-                            {% include 'blog/likes.html' %}
-                                <a href="{% url 'edit-article' article.pk %}" class="btn btn-primary">Edit article</a>
-                                <a href="{% url 'delete-article' article.pk %}" class="btn btn-danger">Delete
-                                    article</a>
-                            </div>
-                        {% else %}
-                            <div class="text-center mb-5">
-                            {% include 'blog/likes.html' %}
-                            </div>
+                        {% if article.date_added != article.date_modified %}
+                            <li class="d-inline me-3"><i class="far fa-edit"></i> Last edited
+                                on: {{ article.date_modified|date:'d/m/Y - H:mA' }}</li>
                         {% endif %}
 
+                        <li class="d-inline"><i class="fas fa-history"></i> Viewed: {{ article.views }} times</li>
+                    </ul>
 
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center mb-5">
-                        {% include 'blog/comments/comments.html' %}
-                        
-                        {% if request.user.is_authenticated %}
-                            <a href="{% url 'add-comment' article.pk %}" class="btn btn-primary">Add comment</a>
-                        {% endif %}
-                    </div>
+
+
+                    {% if is_author or is_superuser %}
+                        <div class="text-center mb-5">
+                            {% include 'blog/likes.html' %}
+                            <a href="{% url 'edit-article' article.pk %}" class="btn btn-primary">Edit article</a>
+                            <a href="{% url 'delete-article' article.pk %}" class="btn btn-danger">Delete
+                                article</a>
+                        </div>
+                    {% else %}
+                        <div class="text-center mb-5">
+                            {% include 'blog/likes.html' %}
+                        </div>
+                    {% endif %}
+
+
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center mb-5">
+                    {% include 'blog/comments/comments.html' %}
 
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'add-comment' article.pk %}" class="btn btn-primary">Add comment</a>
+                    {% endif %}
+                </div>
             </div>
 
         </div>
 
     </div>
+
 
 {% endblock %}
 
