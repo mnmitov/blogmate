@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.http import Http404
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
@@ -25,7 +25,6 @@ class CustomLoginView(TitleMixin, LoginView):
     success_url = reverse_lazy('homepage')
 
 
-
 class AccountDetails(TitleMixin, DetailView):
     template_name = 'account/profile.html'
     title = 'Your account'
@@ -40,7 +39,6 @@ class AccountDetails(TitleMixin, DetailView):
             raise Http404('The profile you are looking for does not exist')
         return profile
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['profile'] = self.get_object()
@@ -48,7 +46,7 @@ class AccountDetails(TitleMixin, DetailView):
         return context
 
 
-class EditAccountView(TitleMixin, LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
+class EditAccountView(TitleMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     title = 'Edit Account'
     template_name = 'account/edit.html'
     model = Profile
@@ -68,20 +66,14 @@ class EditAccountView(TitleMixin, LoginRequiredMixin, UserPassesTestMixin,  Upda
         return reverse_lazy('account-details', kwargs={'pk': self.object.user.pk})
 
 
-
-
-class DeleteAccountView(TitleMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class DeleteAccountView(TitleMixin, LoginRequiredMixin, DeleteView):
     template_name = 'account/delete.html'
     title = 'Delete Account'
     success_url = reverse_lazy('homepage')
     model = AppUser
 
     def get_object(self, queryset=None):
-        return Profile.objects.get(user=self.request.user)
-
-    def test_func(self):
-        profile = self.get_object()
-        return profile.user == self.request.user
+        return self.request.user
 
     def handle_no_permission(self):
         return redirect('forbidden-page')

@@ -69,6 +69,7 @@ class ProfileEditForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone_number': forms.NumberInput(attrs={'class': 'form-control'}),
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -80,8 +81,8 @@ class ProfileEditForm(forms.ModelForm):
     def save(self, commit=True):
         profile = super().save(commit=False)
         if self.cleaned_data.get('remove_avatar'):
-            profile.avatar.delete(save=False)
-            profile.avatar = None
+            profile.image.delete(save=False)
+            profile.image = None
         if commit:
             profile.save()
         return profile
